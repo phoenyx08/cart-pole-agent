@@ -11,5 +11,8 @@ moviepy==2.2.1
 # Additional utilities
 tqdm==4.67.1
 
+# Visualization dependencies
+pygame==2.6.1
+
 # Optional: For better progress bars and formatting
 rich==14.0.0

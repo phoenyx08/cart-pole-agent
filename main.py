@@ -46,9 +46,11 @@ def main():
     try:
         # Initialize environment
         print(f"\nInitializing environment: {ENV_CONFIG['env_name']}")
-        env = EnvironmentWrapper(ENV_CONFIG['env_name'], ENV_CONFIG['seed'])
+        max_episode_steps = TRAINING_CONFIG.get('max_steps')
+        env = EnvironmentWrapper(ENV_CONFIG['env_name'], ENV_CONFIG['seed'], max_episode_steps)
         print(f"State size: {env.state_size}")
         print(f"Action size: {env.action_size}")
+        print(f"Max episode steps: {max_episode_steps}")
         
         # Initialize DQN agent
         print("\nInitializing DQN agent...")
@@ -108,20 +110,25 @@ def main():
             visualizer.record_videos(
                 ENV_CONFIG['env_name'],
                 episodes=VISUALIZATION_CONFIG.get('video_episodes', 1),
-                video_folder=VISUALIZATION_CONFIG.get('video_folder', 'videos')
+                video_folder=VISUALIZATION_CONFIG.get('video_folder', 'videos'),
+                max_episode_steps=EVALUATION_CONFIG.get('max_steps')
             )
             
-            # Show real-time visualization
-            print("\nShowing real-time visualization...")
-            try:
-                visualizer.show_realtime(
-                    ENV_CONFIG['env_name'],
-                    episodes=VISUALIZATION_CONFIG.get('realtime_episodes', 1),
-                    sleep_time=VISUALIZATION_CONFIG.get('sleep_time', 0.05)
-                )
-            except Exception as e:
-                print(f"Real-time visualization failed: {e}")
-                print("This might happen in headless environments.")
+            # Show real-time visualization (only if enabled)
+            realtime_episodes = VISUALIZATION_CONFIG.get('realtime_episodes', 1)
+            if realtime_episodes > 0:
+                print("\nShowing real-time visualization...")
+                try:
+                    visualizer.show_realtime(
+                        ENV_CONFIG['env_name'],
+                        episodes=realtime_episodes,
+                        sleep_time=VISUALIZATION_CONFIG.get('sleep_time', 0.05)
+                    )
+                except Exception as e:
+                    print(f"Real-time visualization failed: {e}")
+                    print("This might happen in headless environments.")
+            else:
+                print("\nReal-time visualization disabled (headless environment)")
         
         print("\n" + "=" * 60)
         print("EXPERIMENT COMPLETED SUCCESSFULLY!")

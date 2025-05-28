@@ -22,7 +22,7 @@ AGENT_CONFIG = {
 # Training parameters
 TRAINING_CONFIG = {
     'episodes': 10,         # Number of training episodes
-    'max_steps': 200,       # Maximum steps per episode
+    'max_steps': 10000,      # Maximum steps per episode
     'target_score': 195,    # Target score to solve the environment
     'save_model': True,     # Whether to save the trained model
     'model_path': 'models/dqn_cartpole.weights.h5',  # Path to save model
@@ -31,15 +31,15 @@ TRAINING_CONFIG = {
 # Evaluation parameters
 EVALUATION_CONFIG = {
     'episodes': 3,          # Number of evaluation episodes
-    'max_steps': 200,       # Maximum steps per episode
+    'max_steps': 10000,      # Maximum steps per episode
 }
 
 # Visualization parameters
 VISUALIZATION_CONFIG = {
-    'record_video': False,          # Whether to record videos
+    'record_video': True,           # Whether to record videos
     'video_folder': 'training_videos',  # Folder for video recordings
-    'video_episodes': 1,            # Number of episodes to record
-    'realtime_episodes': 1,         # Number of real-time visualization episodes
+    'video_episodes': 2,            # Number of episodes to record
+    'realtime_episodes': 0,         # Number of real-time visualization episodes (disabled for headless)
     'sleep_time': 0.05,             # Sleep time between frames for real-time viz
 }
 

@@ -7,17 +7,24 @@ import os
 class EnvironmentWrapper:
     """Wrapper for Gym environments with additional functionality."""
     
-    def __init__(self, env_name, seed=42):
+    def __init__(self, env_name, seed=42, max_episode_steps=None):
         """
         Initialize the environment wrapper.
         
         Args:
             env_name (str): Name of the Gym environment
             seed (int): Random seed for reproducibility
+            max_episode_steps (int): Override environment's max episode steps
         """
         self.env_name = env_name
         self.seed = seed
-        self.env = gym.make(env_name)
+        
+        # Create environment with custom max episode steps if specified
+        if max_episode_steps is not None:
+            self.env = gym.make(env_name, max_episode_steps=max_episode_steps)
+        else:
+            self.env = gym.make(env_name)
+            
         self.state_size = self.env.observation_space.shape[0]
         self.action_size = self.env.action_space.n
         
@@ -70,23 +77,24 @@ class EnvironmentWrapper:
         """Close the environment."""
         self.env.close()
     
-    def create_video_wrapper(self, video_folder):
+    def create_video_wrapper(self, video_folder, max_episode_steps=None):
         """
         Create environment with video recording capability.
         
         Args:
             video_folder (str): Folder to save videos
+            max_episode_steps (int): Override environment's max episode steps
             
         Returns:
             VideoEnvironmentWrapper: Wrapped environment for video recording
         """
-        return VideoEnvironmentWrapper(self.env_name, video_folder, self.seed)
+        return VideoEnvironmentWrapper(self.env_name, video_folder, self.seed, max_episode_steps)
 
 
 class VideoEnvironmentWrapper:
     """Environment wrapper specifically for video recording."""
     
-    def __init__(self, env_name, video_folder, seed=42):
+    def __init__(self, env_name, video_folder, seed=42, max_episode_steps=None):
         """
         Initialize the video environment wrapper.
         
@@ -94,6 +102,7 @@ class VideoEnvironmentWrapper:
             env_name (str): Name of the Gym environment
             video_folder (str): Folder to save videos
             seed (int): Random seed for reproducibility
+            max_episode_steps (int): Override environment's max episode steps
         """
         self.env_name = env_name
         self.video_folder = video_folder
@@ -102,9 +111,15 @@ class VideoEnvironmentWrapper:
         # Create video folder if it doesn't exist
         os.makedirs(video_folder, exist_ok=True)
         
+        # Create base environment with custom max episode steps if specified
+        if max_episode_steps is not None:
+            base_env = gym.make(env_name, render_mode='rgb_array', max_episode_steps=max_episode_steps)
+        else:
+            base_env = gym.make(env_name, render_mode='rgb_array')
+        
         # Create environment with video recording
         self.env = RecordVideo(
-            gym.make(env_name, render_mode='rgb_array'),
+            base_env,
             video_folder=video_folder,
             episode_trigger=lambda episode_id: True
         )
