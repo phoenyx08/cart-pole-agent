@@ -1,0 +1,15 @@
+# Deep Q-Learning Dependencies
+# Core ML and RL libraries
+tensorflow==2.16.2
+gym==0.26.2
+numpy==1.26.4
+
+# Visualization and plotting
+matplotlib==3.10.3
+moviepy==2.2.1
+
+# Additional utilities
+tqdm==4.67.1
+
+# Optional: For better progress bars and formatting
+rich==14.0.0
