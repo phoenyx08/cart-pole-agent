@@ -16,13 +16,13 @@ AGENT_CONFIG = {
     'epsilon_min': 0.01,    # Minimum exploration rate
     'epsilon_decay': 0.99,  # Exploration decay rate
     'learning_rate': 0.001, # Learning rate for neural network
-    'batch_size': 32,       # Batch size for training
+    'batch_size': 64,       # Batch size for training
 }
 
 # Training parameters
 TRAINING_CONFIG = {
-    'episodes': 10,         # Number of training episodes
-    'max_steps': 10000,      # Maximum steps per episode
+    'episodes': 100,         # Number of training episodes
+    'max_steps': 1000,      # Maximum steps per episode
     'target_score': 195,    # Target score to solve the environment
     'save_model': True,     # Whether to save the trained model
     'model_path': 'models/dqn_cartpole.weights.h5',  # Path to save model
@@ -30,15 +30,15 @@ TRAINING_CONFIG = {
 
 # Evaluation parameters
 EVALUATION_CONFIG = {
-    'episodes': 3,          # Number of evaluation episodes
-    'max_steps': 10000,      # Maximum steps per episode
+    'episodes': 30,          # Number of evaluation episodes
+    'max_steps': 1000,      # Maximum steps per episode
 }
 
 # Visualization parameters
 VISUALIZATION_CONFIG = {
     'record_video': True,           # Whether to record videos
     'video_folder': 'training_videos',  # Folder for video recordings
-    'video_episodes': 2,            # Number of episodes to record
+    'video_episodes': 10,            # Number of episodes to record
     'realtime_episodes': 0,         # Number of real-time visualization episodes (disabled for headless)
     'sleep_time': 0.05,             # Sleep time between frames for real-time viz
 }

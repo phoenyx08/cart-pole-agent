@@ -4,6 +4,7 @@ from collections import deque
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import LeakyReLU
 from tensorflow.keras.optimizers import Adam
 
 
@@ -37,8 +38,9 @@ class DQNAgent:
     def _build_model(self):
         """Build and return the neural network model."""
         model = Sequential([
-            Dense(24, input_dim=self.state_size, activation='relu'),
-            Dense(24, activation='relu'),
+            Dense(128, input_dim=self.state_size, activation='relu'),
+            LeakyReLU(alpha=0.05),
+            Dense(256, activation='relu'),
             Dense(self.action_size, activation='linear')
         ])
         model.compile(loss='mse', optimizer=Adam(learning_rate=self.learning_rate))
